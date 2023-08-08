@@ -7,7 +7,6 @@ using System.Linq;
 
 public class gameManager : MonoBehaviour
 {
-    public AudioSource audioSource;
     public AudioClip audioMatch;
     
     public GameObject card;
@@ -37,6 +36,7 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.Instance.PlayBGM(2f);
         Time.timeScale = 1.0f;
         numsOfMatches = 0;
 
@@ -87,9 +87,11 @@ public class gameManager : MonoBehaviour
 
         if (firstCardImage == secondCardImage)
         {
+            //매칭 성공시 사운드
+            AudioManager.Instance.PlayClip(audioMatch);
+
             numsOfMatches += 2;
 
-            audioSource.PlayOneShot(audioMatch);
             firstCard.GetComponent<card>().destroyCard();
             secondCard.GetComponent<card>().destroyCard();
             if (firstCardImage == "pic3" || secondCardImage == "pic3" || firstCardImage == "pic4" || secondCardImage == "pic4")

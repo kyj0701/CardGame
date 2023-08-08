@@ -4,43 +4,71 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioClip backgroundMusic;
-    public AudioSource audioSource;
+    public static AudioManager Instance;
+    public AudioClip bgm;
+    private AudioSource[] audioSources;
+    private AudioSource bgmAudioSource;   // 이미 실행중인 BGM 추적용
 
-    [SerializeField]
-    private float _bgmChangeTime = 20.0f;
-    private bool _isStarted = false;
-    private float _timer = 0.0f;
+    private void Awake()
+    {
+        // 싱글톤
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        
+        bgmAudioSource = gameObject.AddComponent<AudioSource>();
+        audioSources = new AudioSource[5];
+        for (int i=0; i < audioSources.Length; i++)
+        {
+            audioSources[i] = gameObject.AddComponent<AudioSource>();
+        }
+    }
     
 
-    private void Start()
+    public void PlayClip(AudioClip clip)
     {
-        audioSource.clip = backgroundMusic;
-        audioSource.Play();
+        float playSpeed = 1.0f;
+        PlayClip(clip, playSpeed);
     }
-
-    private void Update()
+    public void PlayClip(AudioClip clip, float playSpeed)
     {
-        if (!_isStarted)
+        foreach (AudioSource source in audioSources)
         {
-            _isStarted = true;
-            _timer = 0.0f;
-        }
-
-        if (_isStarted)
-        {
-            _timer += Time.deltaTime;
-
-            if (_timer >= _bgmChangeTime)
+            if (!source.isPlaying)
             {
-                audioSource.pitch = 2.0f;
+                source.clip = clip;
+                source.pitch = playSpeed;
+                source.Play();
+                return;
             }
         }
+    }
 
-        if (Time.timeScale == 0)
-        {
-            audioSource.Stop();
-        }
-
+    public void PlayBGM()
+    {
+        float playSpeed = 1.0f;
+        PlayBGM(bgm, playSpeed);
+    }
+    public void PlayBGM(float playSpeed)
+    {
+        PlayBGM(bgm, playSpeed);
+    }
+    public void PlayBGM(AudioClip clip)
+    {
+        float playSpeed = 1.0f;
+        PlayBGM(clip, playSpeed);
+    }
+    public void PlayBGM(AudioClip clip, float playSpeed)
+    {
+        if(bgmAudioSource.isPlaying)bgmAudioSource.Stop();
+        bgmAudioSource.clip = clip;
+        bgmAudioSource.pitch = playSpeed;
+        bgmAudioSource.loop = true;
+        bgmAudioSource.Play();
     }
 }
