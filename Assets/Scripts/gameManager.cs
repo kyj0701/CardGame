@@ -27,6 +27,7 @@ public class gameManager : MonoBehaviour
 
     private int numsOfMatches = 0;
     private int numsOfTrials = 0;
+    private int bgmStatus = 0; // 게임 상태에 따라서 BGM 이 빠르게 재생되었다가 종료되도록 설정하기 위한 숫자
     
     void Awake()
     {
@@ -36,7 +37,8 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AudioManager.Instance.PlayBGM(2f);
+        // 게임 시작시 오디오 BGM 플레이 default = 1f, 원하는 속도가 있는 경우에는 flaot 값을 넣으면 작동
+        AudioManager.Instance.PlayBGM();
         Time.timeScale = 1.0f;
         numsOfMatches = 0;
 
@@ -65,6 +67,16 @@ public class gameManager : MonoBehaviour
         time += Time.deltaTime;
         timeTxt.text = time.ToString("N2");
 
+        if ( time >= 20.0f )
+        {
+            // 20초 경과시 BGM의 재생속도를 2로 플레이 한번만 작동하도록  bgm Status 를 넣음
+            if( bgmStatus != 1)
+            {
+                bgmStatus = 1;
+                AudioManager.Instance.PlayBGM(2.0f);
+            }
+        }
+
         if (time > 30.0f)
         {
             endWindow.SetActive(true);
@@ -74,6 +86,13 @@ public class gameManager : MonoBehaviour
             scoreTxt.text = "0";
 
             Time.timeScale = 0.0f;
+            // BGM은 따로 사운드 종료 한번만 작동하도록 bgm Status 를 넣음
+            if (bgmStatus != 2) 
+            {
+                bgmStatus = 2;
+                AudioManager.Instance.StopBGM();
+            }
+            
         }
     }
 
