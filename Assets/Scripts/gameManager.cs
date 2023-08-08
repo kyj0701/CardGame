@@ -20,13 +20,13 @@ public class gameManager : MonoBehaviour
     public Text trialTxt;
     public Text endTxt;
     public Text scoreTxt;
-    float time = 0.0f;
+    public float time = 0.0f;
+    public float openLimitTime;
 
     public static gameManager I;
 
     public int numsOfCards = 12;
 
-    private int numsOfMatches = 0;
     private int numsOfTrials = 0;
     
     void Awake()
@@ -38,7 +38,6 @@ public class gameManager : MonoBehaviour
     void Start()
     {
         Time.timeScale = 1.0f;
-        numsOfMatches = 0;
 
         int[] pics = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
 
@@ -75,6 +74,16 @@ public class gameManager : MonoBehaviour
 
             Time.timeScale = 0.0f;
         }
+        
+        if (firstCard != null && secondCard == null)
+        {
+            if (openLimitTime < time)
+            {
+                firstCard.GetComponent<card>().closeCard();
+                firstCard = null;
+                nameTxt.text = "½ÇÆÐ";
+            }
+        }
     }
 
     public void isMatched()
@@ -87,8 +96,6 @@ public class gameManager : MonoBehaviour
 
         if (firstCardImage == secondCardImage)
         {
-            numsOfMatches += 2;
-
             audioSource.PlayOneShot(audioMatch);
             firstCard.GetComponent<card>().destroyCard();
             secondCard.GetComponent<card>().destroyCard();

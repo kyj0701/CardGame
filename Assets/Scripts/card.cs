@@ -37,6 +37,7 @@ public class card : MonoBehaviour
         if (gameManager.I.firstCard == null)
         {
             gameManager.I.firstCard = gameObject;
+            gameManager.I.openLimitTime = gameManager.I.time + 5.0f;
         }
         else
         {
