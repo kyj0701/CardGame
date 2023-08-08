@@ -7,6 +7,9 @@ using System.Linq;
 public class gameManager : MonoBehaviour
 
 {
+    public AudioSource audioSource;
+    public AudioClip audioMatch;
+    
     public GameObject card;
     public GameObject firstCard;
     public GameObject secondCard;
@@ -51,6 +54,7 @@ public class gameManager : MonoBehaviour
 
         if (firstCardImage == secondCardImage)
         {
+            audioSource.PlayOneShot(audioMatch);
             firstCard.GetComponent<card>().destroyCard();
             secondCard.GetComponent<card>().destroyCard();
         }
