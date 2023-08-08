@@ -511,6 +511,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   card: {fileID: 6228258502635952725, guid: caac793b6bbd57c4f933c92f84677622, type: 3}
+  firstCard: {fileID: 0}
+  secondCard: {fileID: 0}
   timeTxt: {fileID: 150255726}
 --- !u!4 &1969472988
 Transform:
