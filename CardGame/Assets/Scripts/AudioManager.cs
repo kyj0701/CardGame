@@ -37,5 +37,10 @@ public class AudioManager : MonoBehaviour
             }
         }
 
+        if (Time.timeScale == 0)
+        {
+            audioSource.Stop();
+        }
+
     }
 }
