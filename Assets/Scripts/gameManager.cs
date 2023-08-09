@@ -8,7 +8,7 @@ using System.Linq;
 public class gameManager : MonoBehaviour
 {
     public AudioClip audioMatch;
-    
+
     public GameObject card;
     public GameObject firstCard;
     public GameObject secondCard;
@@ -27,8 +27,9 @@ public class gameManager : MonoBehaviour
     public int numsOfCards = 12;
 
     private int numsOfTrials = 0;
+
     private int bgmStatus = 0; // ���� ���¿� ���� BGM �� ������ ����Ǿ��ٰ� ����ǵ��� �����ϱ� ���� ����
-    
+
     void Awake()
     {
         I = this;
@@ -41,7 +42,7 @@ public class gameManager : MonoBehaviour
         AudioManager.Instance.PlayBGM();
         Time.timeScale = 1.0f;
 
-        int[] pics = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
+        int[] pics = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
 
         pics = pics.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
 
@@ -50,8 +51,8 @@ public class gameManager : MonoBehaviour
             GameObject newCard = Instantiate(card);
             newCard.transform.parent = GameObject.Find("cards").transform;
 
-            float x = (i / 4) * 1.4f -1.38f;
-            float y = (i % 4) * 1.4f -3.5f;
+            float x = (i / 4) * 1.4f - 1.38f;
+            float y = (i % 4) * 1.4f - 3.5f;
             newCard.transform.position = new Vector3(x, y, 0);
 
             string picName = "pic" + pics[i].ToString();
@@ -103,6 +104,11 @@ public class gameManager : MonoBehaviour
                 nameTxt.text = "����";
             }
         }
+        else
+        {
+            CalculateScore(); // ���� �� (30�� �̸����� ���� ���� ��) ���� ��� �Լ�
+        }
+
     }
 
     public void isMatched()
@@ -144,9 +150,12 @@ public class gameManager : MonoBehaviour
 
                 Time.timeScale = 0.0f;
             }
+            DecreaseTimeOnMatchSuccess(); // ��ġ ���� �� �ð� 1�� ���� �Լ� ȣ��
         }
         else
         {
+            IncreaseTimeOnMatchFail(); // ��ġ ���� �� �ð� 2�� ���� �Լ� ȣ��
+
             firstCard.GetComponent<card>().closeCard();
             secondCard.GetComponent<card>().closeCard();
             nameTxt.text = "����";
@@ -155,6 +164,62 @@ public class gameManager : MonoBehaviour
         firstCard = null;
         secondCard = null;
     }
+
+
+
+
+    public void IncreaseTimeOnMatchFail() // ��ġ ���� �� �ð� 2�� ����
+    {
+        time += 2.0f; // �ð� 2�� ����
+        timeTxt.text = time.ToString("N2"); // UI�� �ð� ������Ʈ
+
+        // ���� ó��
+        if (time > 30.0f) // �ð��� 30�� �̻��̸�
+        {
+            endWindow.SetActive(true);
+            endTxt.text = "����"; 
+            endTxt.color = Color.red; 
+            scoreTxt.text = "0"; 
+            Time.timeScale = 0.0f; 
+        }
+    }
+
+    private void DecreaseTimeOnMatchSuccess() // ��ġ ���� �� �ð� 1�� ����
+    {
+        if (time >= 1.0f) 
+        {
+            time -= 1.0f; // �ð� 1�� ����
+            timeTxt.text = time.ToString("N2"); // UI�� �ð� ������Ʈ
+        }
+    }
+
+    void CalculateScore()     // �ð��� ���� ������ ���
+
+    {
+        int baseScore = 100; // �⺻����
+        int timeBonus = 0;
+
+        if (time >= 25.0f)
+        {
+            timeBonus = -15; // ���� �ð��� 25�� �̻��� ��� 15�� ����
+        }
+        else if (time >= 20.0f)
+        {
+            timeBonus = -10; // 20�� �̻� 10�� ����
+        }
+        else if (time >= 15.0f)
+        {
+            timeBonus = -5; // 15�� �̻� 5�� ����
+        }
+        // 15�� �̸� ���� 0
+
+        int finalScore = Mathf.Max(0, baseScore + timeBonus - numsOfTrials); // ���� ����
+        scoreTxt.text = finalScore.ToString(); // ���� UI�� ����
+    }
+
+
+
+
 
     public void Retry()
     {
