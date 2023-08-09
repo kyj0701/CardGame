@@ -19,15 +19,15 @@ public class gameManager : MonoBehaviour
     public Text trialTxt;
     public Text endTxt;
     public Text scoreTxt;
-    float time = 0.0f;
+    public float time = 0.0f;
+    public float openLimitTime;
 
     public static gameManager I;
 
     public int numsOfCards = 12;
 
-    private int numsOfMatches = 0;
     private int numsOfTrials = 0;
-    private int bgmStatus = 0; // °ÔÀÓ »óÅÂ¿¡ µû¶ó¼­ BGM ÀÌ ºü¸£°Ô Àç»ýµÇ¾ú´Ù°¡ Á¾·áµÇµµ·Ï ¼³Á¤ÇÏ±â À§ÇÑ ¼ýÀÚ
+    private int bgmStatus = 0; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½ BGM ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     
     void Awake()
     {
@@ -37,10 +37,9 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // °ÔÀÓ ½ÃÀÛ½Ã ¿Àµð¿À BGM ÇÃ·¹ÀÌ default = 1f, ¿øÇÏ´Â ¼Óµµ°¡ ÀÖ´Â °æ¿ì¿¡´Â flaot °ªÀ» ³ÖÀ¸¸é ÀÛµ¿
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ BGM ï¿½Ã·ï¿½ï¿½ï¿½ default = 1f, ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Óµï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ flaot ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ûµï¿½
         AudioManager.Instance.PlayBGM();
         Time.timeScale = 1.0f;
-        numsOfMatches = 0;
 
         int[] pics = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
 
@@ -69,7 +68,7 @@ public class gameManager : MonoBehaviour
 
         if ( time >= 20.0f )
         {
-            // 20ÃÊ °æ°ú½Ã BGMÀÇ Àç»ý¼Óµµ¸¦ 2·Î ÇÃ·¹ÀÌ ÇÑ¹ø¸¸ ÀÛµ¿ÇÏµµ·Ï  bgm Status ¸¦ ³ÖÀ½
+            // 20ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ BGMï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½Ïµï¿½ï¿½ï¿½  bgm Status ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if( bgmStatus != 1)
             {
                 bgmStatus = 1;
@@ -81,18 +80,28 @@ public class gameManager : MonoBehaviour
         {
             endWindow.SetActive(true);
 
-            endTxt.text = "½ÇÆÐ";
+            endTxt.text = "ï¿½ï¿½ï¿½ï¿½";
             endTxt.color = Color.red;
             scoreTxt.text = "0";
 
             Time.timeScale = 0.0f;
-            // BGMÀº µû·Î »ç¿îµå Á¾·á ÇÑ¹ø¸¸ ÀÛµ¿ÇÏµµ·Ï bgm Status ¸¦ ³ÖÀ½
+            // BGMï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½Ïµï¿½ï¿½ï¿½ bgm Status ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (bgmStatus != 2) 
             {
                 bgmStatus = 2;
                 AudioManager.Instance.StopBGM();
             }
             
+        }
+        
+        if (firstCard != null && secondCard == null)
+        {
+            if (openLimitTime < time)
+            {
+                firstCard.GetComponent<card>().closeCard();
+                firstCard = null;
+                nameTxt.text = "ï¿½ï¿½ï¿½ï¿½";
+            }
         }
     }
 
@@ -106,24 +115,21 @@ public class gameManager : MonoBehaviour
 
         if (firstCardImage == secondCardImage)
         {
-            //¸ÅÄª ¼º°ø½Ã »ç¿îµå
+            //ï¿½ï¿½Äª ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             AudioManager.Instance.PlayClip(audioMatch);
-
-            numsOfMatches += 2;
-
             firstCard.GetComponent<card>().destroyCard();
             secondCard.GetComponent<card>().destroyCard();
             if (firstCardImage == "pic3" || secondCardImage == "pic3" || firstCardImage == "pic4" || secondCardImage == "pic4")
             {
-                nameTxt.text = "ÃÖ¼ö¿ë";
+                nameTxt.text = "ï¿½Ö¼ï¿½ï¿½ï¿½";
             }
             else if (firstCardImage == "pic1" || secondCardImage == "pic1" || firstCardImage == "pic2" || secondCardImage == "pic2")
             {
-                nameTxt.text = "±èµµÇö";
+                nameTxt.text = "ï¿½èµµï¿½ï¿½";
             }
             else
             {
-                nameTxt.text = "±è¿¹ÁØ";
+                nameTxt.text = "ï¿½è¿¹ï¿½ï¿½";
             }
 
             int cardsLeft = GameObject.Find("cards").transform.childCount;
@@ -132,7 +138,7 @@ public class gameManager : MonoBehaviour
             {
                 endWindow.SetActive(true);
 
-                endTxt.text = "¼º°ø";
+                endTxt.text = "ï¿½ï¿½ï¿½ï¿½";
                 endTxt.color = Color.yellow;
                 scoreTxt.text = (100 - numsOfTrials).ToString();
 
@@ -143,7 +149,7 @@ public class gameManager : MonoBehaviour
         {
             firstCard.GetComponent<card>().closeCard();
             secondCard.GetComponent<card>().closeCard();
-            nameTxt.text = "½ÇÆÐ";
+            nameTxt.text = "ï¿½ï¿½ï¿½ï¿½";
         }
 
         firstCard = null;
