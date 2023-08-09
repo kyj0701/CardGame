@@ -8,7 +8,6 @@ using System.Linq;
 public class gameManager : MonoBehaviour
 {
     public AudioClip audioMatch;
-    public float test = 4.5f;
     
     public GameObject card;
     public GameObject firstCard;
@@ -33,7 +32,6 @@ public class gameManager : MonoBehaviour
     void Awake()
     {
         I = this;
-        Debug.Log(test);
     }
 
     // Start is called before the first frame update
