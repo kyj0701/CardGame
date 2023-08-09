@@ -72,7 +72,7 @@ public class AudioManager : MonoBehaviour
         if(!isBGMOn) return;
         if(bgmAudioSource.isPlaying)bgmAudioSource.Stop();
         bgmAudioSource.clip = clip;
-        bgmAudioSource.pitch = playSpeed;
+        if( playSpeed > 0f ) bgmAudioSource.pitch = playSpeed;
         bgmAudioSource.loop = true;
         bgmAudioSource.Play();
     }
@@ -94,6 +94,49 @@ public class AudioManager : MonoBehaviour
         for(int i=0; i < audioSources.Length; i++)
         {
             if(audioSources[i].isPlaying) audioSources[i].Stop();
+        }
+    }
+
+    public void TurnOnBGM()
+    {
+        isBGMOn = true;
+        if(!bgmAudioSource.isPlaying) PlayBGM(-1f);  // 원래속도유지
+    }
+
+    public void TurnOnSFX()
+    {
+        isSFXOn = true;
+    }
+
+    public void PauseSound()
+    {
+        for(int i=0; i < audioSources.Length; i++)
+        {
+            bgmAudioSource.Pause();
+            audioSources[i].Pause();
+        }
+    }
+
+    public void UnPauseSound()
+    {
+        for(int i=0; i < audioSources.Length; i++)
+        {
+            bgmAudioSource.UnPause();
+            audioSources[i].UnPause();
+        }
+    }
+
+    public void SetVolume(bool bgmMute, bool sfxMute, float bgmVolume, float sfxVolume)
+    {
+        if(bgmMute) TurnOffBGM();
+        if(sfxMute) TurnOffSFX();
+        if(!bgmMute) TurnOnBGM();
+        if(!sfxMute) TurnOnSFX();
+
+        bgmAudioSource.volume = bgmVolume;
+        for(int i=0; i < audioSources.Length; i++)
+        {
+            audioSources[i].volume = sfxVolume;
         }
     }
 }

@@ -160,4 +160,17 @@ public class gameManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainScene");
     }
+
+
+    public void PauseGame()
+    {
+        AudioManager.Instance.PauseSound();
+        Time.timeScale = 0.0f;
+    }
+
+    public void UnPauseGame()
+    {
+        AudioManager.Instance.UnPauseSound();
+        Time.timeScale = 1.0f;
+    }
 }
