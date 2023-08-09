@@ -69,10 +69,10 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayBGM(AudioClip clip, float playSpeed)
     {
+        if( playSpeed > 0f ) bgmAudioSource.pitch = playSpeed;
         if(!isBGMOn) return;
         if(bgmAudioSource.isPlaying)bgmAudioSource.Stop();
         bgmAudioSource.clip = clip;
-        if( playSpeed > 0f ) bgmAudioSource.pitch = playSpeed;
         bgmAudioSource.loop = true;
         bgmAudioSource.Play();
     }
