@@ -7,7 +7,6 @@ public class card : MonoBehaviour
     // public Animator anim; // 애니메이션 적용 시 활성화할 코드
     public Animator anim;
     public AudioClip flip;
-    public AudioSource audioSource;
 
     private void Awake()
     {
@@ -29,7 +28,7 @@ public class card : MonoBehaviour
     {
         // anim.SetBool("isOpen", true);  // 애니메이션 적용 시 넣어야할 코드
         anim.SetBool("isOpen", true);
-        audioSource.PlayOneShot(flip);
+        AudioManager.Instance.PlayClip(flip);
 
         transform.Find("front").gameObject.SetActive(true);
         transform.Find("back").gameObject.SetActive(false);
@@ -37,6 +36,7 @@ public class card : MonoBehaviour
         if (gameManager.I.firstCard == null)
         {
             gameManager.I.firstCard = gameObject;
+            gameManager.I.openLimitTime = gameManager.I.time + 5.0f;
         }
         else
         {
