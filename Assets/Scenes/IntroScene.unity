@@ -853,6 +853,7 @@ GameObject:
   - component: {fileID: 960735935}
   - component: {fileID: 960735936}
   - component: {fileID: 960735937}
+  - component: {fileID: 960735938}
   m_Layer: 5
   m_Name: Level_Toggle
   m_TagString: Untagged
@@ -991,6 +992,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &960735938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960735934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f383ca30679eda47a04992fd7ae0a6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &964387906
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,9 +1171,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1871272396}
-        m_TargetAssemblyTypeName: LevelData, Assembly-CSharp
-        m_MethodName: SetLevel
+      - m_Target: {fileID: 960735938}
+        m_TargetAssemblyTypeName: LevelToggle, Assembly-CSharp
+        m_MethodName: SetLevel02
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1268,9 +1281,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1871272396}
-        m_TargetAssemblyTypeName: LevelData, Assembly-CSharp
-        m_MethodName: SetLevel
+      - m_Target: {fileID: 960735938}
+        m_TargetAssemblyTypeName: LevelToggle, Assembly-CSharp
+        m_MethodName: SetLevel03
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1496,9 +1509,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1871272396}
-        m_TargetAssemblyTypeName: LevelData, Assembly-CSharp
-        m_MethodName: SetLevel
+      - m_Target: {fileID: 960735938}
+        m_TargetAssemblyTypeName: LevelToggle, Assembly-CSharp
+        m_MethodName: SetLevel01
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1962,9 +1975,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151e9f818db34dd4b8a1f3ea987b3972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level1: {fileID: 1405575324}
-  level2: {fileID: 1044972578}
-  level3: {fileID: 1224991458}
 --- !u!4 &1871272397
 Transform:
   m_ObjectHideFlags: 0
