@@ -132,9 +132,8 @@ public class GameManager : MonoBehaviour
             overlayBackground.SetActive(true);
             endWindow.transform.SetAsLastSibling();
             endWindow.SetActive(true);
-            
 
-            endTxt.text = "����";
+            endTxt.text = "실패";
             endTxt.color = Color.red;
             scoreTxt.text = "0";
 
