@@ -13,6 +13,7 @@ public class gameManager : MonoBehaviour
     public GameObject firstCard;
     public GameObject secondCard;
     public GameObject endWindow;
+    public GameObject overlayBackground;
 
     public Text timeTxt;
     public Text nameTxt;
@@ -23,12 +24,11 @@ public class gameManager : MonoBehaviour
     public float openLimitTime;
 
     public static gameManager I;
-
     public int numsOfCards = 12;
-
     private int numsOfTrials = 0;
 
     private int bgmStatus = 0; // ���� ���¿� ���� BGM �� ������ ����Ǿ��ٰ� ����ǵ��� �����ϱ� ���� ����
+    private int[] pics; 
 
     void Awake()
     {
@@ -42,23 +42,72 @@ public class gameManager : MonoBehaviour
         AudioManager.Instance.PlayBGM();
         Time.timeScale = 1.0f;
 
-        int[] pics = { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 };
+        if(LevelData.Instance.GameLevel == 2)
+        {
+            pics = new int[] { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7};
+            numsOfCards = 16;
+        }
+        else if(LevelData.Instance.GameLevel == 3)
+        {
+            pics = new int[] { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9};
+            numsOfCards = 20;
+        }
+        else
+        {
+            pics = new int[] { 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5};
+            numsOfCards = 12;
+        }
 
         pics = pics.OrderBy(item => Random.Range(-1.0f, 1.0f)).ToArray();
 
-        for (int i = 0; i < numsOfCards; i++)
+        if(LevelData.Instance.GameLevel == 1)
         {
-            GameObject newCard = Instantiate(card);
-            newCard.transform.parent = GameObject.Find("cards").transform;
+            for (int i = 0; i < numsOfCards; i++)
+            {
+                GameObject newCard = Instantiate(card);
+                newCard.transform.parent = GameObject.Find("cards").transform;
 
-            float x = (i / 4) * 1.4f - 1.38f;
-            float y = (i % 4) * 1.4f - 3.5f;
-            newCard.transform.position = new Vector3(x, y, 0);
+                float x = (i / 4) * 1.4f - 1.4f;
+                float y = (i % 4) * 1.4f - 2.8f;
+                newCard.transform.position = new Vector3(x, y, 0);
 
-            string picName = "pic" + pics[i].ToString();
-            newCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(picName);
-
+                string picName = "pic" + pics[i].ToString();
+                newCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(picName);
+            }
         }
+
+        if(LevelData.Instance.GameLevel == 2)
+        {
+            for (int i = 0; i < numsOfCards; i++)
+            {
+                GameObject newCard = Instantiate(card);
+                newCard.transform.parent = GameObject.Find("cards").transform;
+
+                float y = (i / 4) * 1.4f - 2.8f;
+                float x = (i % 4) * 1.4f - 2.1f;
+                newCard.transform.position = new Vector3(x, y, 0);
+
+                string picName = "pic" + pics[i].ToString();
+                newCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(picName);
+            }
+        }
+
+        if(LevelData.Instance.GameLevel == 3)
+        {
+            for (int i = 0; i < numsOfCards; i++)
+            {
+                GameObject newCard = Instantiate(card);
+                newCard.transform.parent = GameObject.Find("cards").transform;
+
+                float y = (i / 4) * 1.4f - 4.1f;
+                float x = (i % 4) * 1.4f - 2.1f;
+                newCard.transform.position = new Vector3(x, y, 0);
+
+                string picName = "pic" + pics[i].ToString();
+                newCard.transform.Find("front").GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(picName);
+            }
+        }
+
     }
 
     // Update is called once per frame
@@ -79,7 +128,11 @@ public class gameManager : MonoBehaviour
 
         if (time > 30.0f)
         {
+            overlayBackground.transform.SetAsLastSibling();
+            overlayBackground.SetActive(true);
+            endWindow.transform.SetAsLastSibling();
             endWindow.SetActive(true);
+            
 
             endTxt.text = "����";
             endTxt.color = Color.red;
@@ -142,6 +195,9 @@ public class gameManager : MonoBehaviour
             Debug.Log(cardsLeft);
             if (cardsLeft == 2)
             {
+                overlayBackground.transform.SetAsLastSibling();
+                overlayBackground.SetActive(true);
+                endWindow.transform.SetAsLastSibling();
                 endWindow.SetActive(true);
 
                 endTxt.text = "����";
@@ -149,6 +205,7 @@ public class gameManager : MonoBehaviour
                 scoreTxt.text = (100 - numsOfTrials).ToString();
 
                 Time.timeScale = 0.0f;
+                AudioManager.Instance.StopBGM();
             }
             DecreaseTimeOnMatchSuccess(); // ��ġ ���� �� �ð� 1�� ���� �Լ� ȣ��
         }
@@ -176,7 +233,13 @@ public class gameManager : MonoBehaviour
         // ���� ó��
         if (time > 30.0f) // �ð��� 30�� �̻��̸�
         {
+            overlayBackground.transform.SetAsLastSibling();
+            overlayBackground.SetActive(true);
+            endWindow.transform.SetAsLastSibling();
             endWindow.SetActive(true);
+
+            AudioManager.Instance.StopBGM();
+
             endTxt.text = "����"; 
             endTxt.color = Color.red; 
             scoreTxt.text = "0"; 
@@ -223,10 +286,13 @@ public class gameManager : MonoBehaviour
 
     public void Retry()
     {
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("GameScene");
     }
 
-
+    public void Restart()
+    {
+        SceneManager.LoadScene("IntroScene");
+    }
     public void PauseGame()
     {
         AudioManager.Instance.PauseSound();
