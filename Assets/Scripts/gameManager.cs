@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class gameManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
     public AudioClip audioMatch;
 
@@ -23,11 +23,11 @@ public class gameManager : MonoBehaviour
     public float time = 0.0f;
     public float openLimitTime;
 
-    public static gameManager I;
+    public static GameManager I;
     public int numsOfCards = 12;
     private int numsOfTrials = 0;
 
-    private int bgmStatus = 0; // ���� ���¿� ���� BGM �� ������ ����Ǿ��ٰ� ����ǵ��� �����ϱ� ���� ����
+    private int bgmStatus = 0; //
     private int[] pics; 
 
     void Awake()
@@ -38,7 +38,7 @@ public class gameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ���� ���۽� ����� BGM �÷��� default = 1f, ���ϴ� �ӵ��� �ִ� ��쿡�� flaot ���� ������ �۵�
+        // 
         AudioManager.Instance.PlayBGM();
         Time.timeScale = 1.0f;
 
@@ -65,10 +65,10 @@ public class gameManager : MonoBehaviour
             for (int i = 0; i < numsOfCards; i++)
             {
                 GameObject newCard = Instantiate(card);
-                newCard.transform.parent = GameObject.Find("cards").transform;
+                newCard.transform.parent = GameObject.Find("Cards").transform;
 
                 float x = (i / 4) * 1.4f - 1.4f;
-                float y = (i % 4) * 1.4f - 2.8f;
+                float y = (i % 4) * 1.4f - 3.2f;
                 newCard.transform.position = new Vector3(x, y, 0);
 
                 string picName = "pic" + pics[i].ToString();
@@ -81,7 +81,7 @@ public class gameManager : MonoBehaviour
             for (int i = 0; i < numsOfCards; i++)
             {
                 GameObject newCard = Instantiate(card);
-                newCard.transform.parent = GameObject.Find("cards").transform;
+                newCard.transform.parent = GameObject.Find("Cards").transform;
 
                 float y = (i / 4) * 1.4f - 2.8f;
                 float x = (i % 4) * 1.4f - 2.1f;
@@ -97,7 +97,7 @@ public class gameManager : MonoBehaviour
             for (int i = 0; i < numsOfCards; i++)
             {
                 GameObject newCard = Instantiate(card);
-                newCard.transform.parent = GameObject.Find("cards").transform;
+                newCard.transform.parent = GameObject.Find("Cards").transform;
 
                 float y = (i / 4) * 1.4f - 4.1f;
                 float x = (i % 4) * 1.4f - 2.1f;
@@ -118,7 +118,7 @@ public class gameManager : MonoBehaviour
 
         if ( time >= 20.0f )
         {
-            // 20�� ����� BGM�� ����ӵ��� 2�� �÷��� �ѹ��� �۵��ϵ���  bgm Status �� ����
+            //
             if( bgmStatus != 1)
             {
                 bgmStatus = 1;
@@ -139,7 +139,7 @@ public class gameManager : MonoBehaviour
             scoreTxt.text = "0";
 
             Time.timeScale = 0.0f;
-            // BGM�� ���� ���� ���� �ѹ��� �۵��ϵ��� bgm Status �� ����
+            //
             if (bgmStatus != 2) 
             {
                 bgmStatus = 2;
@@ -152,14 +152,14 @@ public class gameManager : MonoBehaviour
         {
             if (openLimitTime < time)
             {
-                firstCard.GetComponent<card>().closeCard();
+                firstCard.GetComponent<Card>().closeCard();
                 firstCard = null;
-                nameTxt.text = "����";
+                nameTxt.text = "시간 초과";
             }
         }
         else
         {
-            CalculateScore(); // ���� �� (30�� �̸����� ���� ���� ��) ���� ��� �Լ�
+            CalculateScore(); // 
         }
 
     }
@@ -174,24 +174,24 @@ public class gameManager : MonoBehaviour
 
         if (firstCardImage == secondCardImage)
         {
-            //��Ī ������ ����
+            //
             AudioManager.Instance.PlayClip(audioMatch);
-            firstCard.GetComponent<card>().destroyCard();
-            secondCard.GetComponent<card>().destroyCard();
+            firstCard.GetComponent<Card>().destroyCard();
+            secondCard.GetComponent<Card>().destroyCard();
             if (firstCardImage == "pic3" || secondCardImage == "pic3" || firstCardImage == "pic4" || secondCardImage == "pic4")
             {
-                nameTxt.text = "�ּ���";
+                nameTxt.text = "최수용";
             }
             else if (firstCardImage == "pic1" || secondCardImage == "pic1" || firstCardImage == "pic2" || secondCardImage == "pic2")
             {
-                nameTxt.text = "�赵��";
+                nameTxt.text = "김도현";
             }
             else
             {
-                nameTxt.text = "�迹��";
+                nameTxt.text = "김예준";
             }
 
-            int cardsLeft = GameObject.Find("cards").transform.childCount;
+            int cardsLeft = GameObject.Find("Cards").transform.childCount;
             Debug.Log(cardsLeft);
             if (cardsLeft == 2)
             {
@@ -200,38 +200,35 @@ public class gameManager : MonoBehaviour
                 endWindow.transform.SetAsLastSibling();
                 endWindow.SetActive(true);
 
-                endTxt.text = "����";
+                endTxt.text = "성공";
                 endTxt.color = Color.yellow;
                 scoreTxt.text = (100 - numsOfTrials).ToString();
 
                 Time.timeScale = 0.0f;
                 AudioManager.Instance.StopBGM();
             }
-            DecreaseTimeOnMatchSuccess(); // ��ġ ���� �� �ð� 1�� ���� �Լ� ȣ��
+            DecreaseTimeOnMatchSuccess(); // 
         }
         else
         {
-            IncreaseTimeOnMatchFail(); // ��ġ ���� �� �ð� 2�� ���� �Լ� ȣ��
+            IncreaseTimeOnMatchFail(); // 
 
-            firstCard.GetComponent<card>().closeCard();
-            secondCard.GetComponent<card>().closeCard();
-            nameTxt.text = "����";
+            firstCard.GetComponent<Card>().closeCard();
+            secondCard.GetComponent<Card>().closeCard();
+            nameTxt.text = "실패";
         }
 
         firstCard = null;
         secondCard = null;
     }
 
-
-
-
-    public void IncreaseTimeOnMatchFail() // ��ġ ���� �� �ð� 2�� ����
+    public void IncreaseTimeOnMatchFail() // 
     {
-        time += 2.0f; // �ð� 2�� ����
-        timeTxt.text = time.ToString("N2"); // UI�� �ð� ������Ʈ
+        time += 2.0f; // 
+        timeTxt.text = time.ToString("N2"); // 
 
-        // ���� ó��
-        if (time > 30.0f) // �ð��� 30�� �̻��̸�
+        // 
+        if (time > 30.0f) // 
         {
             overlayBackground.transform.SetAsLastSibling();
             overlayBackground.SetActive(true);
@@ -240,49 +237,45 @@ public class gameManager : MonoBehaviour
 
             AudioManager.Instance.StopBGM();
 
-            endTxt.text = "����"; 
+            endTxt.text = "실패"; 
             endTxt.color = Color.red; 
             scoreTxt.text = "0"; 
             Time.timeScale = 0.0f; 
         }
     }
 
-    private void DecreaseTimeOnMatchSuccess() // ��ġ ���� �� �ð� 1�� ����
+    private void DecreaseTimeOnMatchSuccess() // 
     {
         if (time >= 1.0f) 
         {
-            time -= 1.0f; // �ð� 1�� ����
-            timeTxt.text = time.ToString("N2"); // UI�� �ð� ������Ʈ
+            time -= 1.0f; // 
+            timeTxt.text = time.ToString("N2"); // 
         }
     }
 
-    void CalculateScore()     // �ð��� ���� ������ ���
+    void CalculateScore()     // 
 
     {
-        int baseScore = 100; // �⺻����
+        int baseScore = 100; // 
         int timeBonus = 0;
 
         if (time >= 25.0f)
         {
-            timeBonus = -15; // ���� �ð��� 25�� �̻��� ��� 15�� ����
+            timeBonus = -15; // 
         }
         else if (time >= 20.0f)
         {
-            timeBonus = -10; // 20�� �̻� 10�� ����
+            timeBonus = -10; // 
         }
         else if (time >= 15.0f)
         {
-            timeBonus = -5; // 15�� �̻� 5�� ����
+            timeBonus = -5; // 
         }
-        // 15�� �̸� ���� 0
+        // 
 
-        int finalScore = Mathf.Max(0, baseScore + timeBonus - numsOfTrials); // ���� ����
-        scoreTxt.text = finalScore.ToString(); // ���� UI�� ����
+        int finalScore = Mathf.Max(0, baseScore + timeBonus - numsOfTrials); // 
+        scoreTxt.text = finalScore.ToString(); // 
     }
-
-
-
-
 
     public void Retry()
     {

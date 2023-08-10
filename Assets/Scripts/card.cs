@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class card : MonoBehaviour
+public class Card : MonoBehaviour
 {
     // public Animator anim; // 애니메이션 적용 시 활성화할 코드
     public Animator anim;
@@ -33,15 +33,15 @@ public class card : MonoBehaviour
         transform.Find("front").gameObject.SetActive(true);
         transform.Find("back").gameObject.SetActive(false);
 
-        if (gameManager.I.firstCard == null)
+        if (GameManager.I.firstCard == null)
         {
-            gameManager.I.firstCard = gameObject;
-            gameManager.I.openLimitTime = gameManager.I.time + 5.0f;
+            GameManager.I.firstCard = gameObject;
+            GameManager.I.openLimitTime = GameManager.I.time + 5.0f;
         }
         else
         {
-            gameManager.I.secondCard = gameObject;
-            gameManager.I.isMatched();
+            GameManager.I.secondCard = gameObject;
+            GameManager.I.isMatched();
         }
     }
     public void destroyCard()

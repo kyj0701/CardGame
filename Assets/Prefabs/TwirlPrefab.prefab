@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3491479449554555417}
   - component: {fileID: 3491479449554555418}
   m_Layer: 0
-  m_Name: twirlPrefab
+  m_Name: TwirlPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
