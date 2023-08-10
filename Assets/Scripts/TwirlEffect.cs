@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class twirlEffect : MonoBehaviour
+public class TwirlEffect : MonoBehaviour
 {
     // Start is called before the first frame update
     SpriteRenderer sprite;

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class card : MonoBehaviour
+public class Card : MonoBehaviour
 {
-    // public Animator anim; // ¾Ö´Ï¸ŞÀÌ¼Ç Àû¿ë ½Ã È°¼ºÈ­ÇÒ ÄÚµå
+    // public Animator anim; // ì• ë‹ˆë©”ì´ì…˜ ì ìš© ì‹œ í™œì„±í™”í•  ì½”ë“œ
     public Animator anim;
     public AudioClip flip;
 
@@ -26,22 +26,22 @@ public class card : MonoBehaviour
 
     public void openCard()
     {
-        // anim.SetBool("isOpen", true);  // ¾Ö´Ï¸ŞÀÌ¼Ç Àû¿ë ½Ã ³Ö¾î¾ßÇÒ ÄÚµå
+        // anim.SetBool("isOpen", true);  // ì• ë‹ˆë©”ì´ì…˜ ì ìš© ì‹œ ë„£ì–´ì•¼í•  ì½”ë“œ
         anim.SetBool("isOpen", true);
         AudioManager.Instance.PlayClip(flip);
 
         transform.Find("front").gameObject.SetActive(true);
         transform.Find("back").gameObject.SetActive(false);
 
-        if (gameManager.I.firstCard == null)
+        if (GameManager.I.firstCard == null)
         {
-            gameManager.I.firstCard = gameObject;
-            gameManager.I.openLimitTime = gameManager.I.time + 5.0f;
+            GameManager.I.firstCard = gameObject;
+            GameManager.I.openLimitTime = GameManager.I.time + 5.0f;
         }
         else
         {
-            gameManager.I.secondCard = gameObject;
-            gameManager.I.isMatched();
+            GameManager.I.secondCard = gameObject;
+            GameManager.I.isMatched();
         }
     }
     public void destroyCard()
@@ -61,7 +61,7 @@ public class card : MonoBehaviour
 
     void closeCardInvoke()
     {
-        // anim.SetBool("isOpen", false); // ¾Ö´Ï¸ŞÀÌ¼Ç Àû¿ë ½Ã È°¼ºÈ­
+        // anim.SetBool("isOpen", false); // ì• ë‹ˆë©”ì´ì…˜ ì ìš© ì‹œ í™œì„±í™”
         anim.SetBool("isOpen", false);
 
         transform.Find("back").gameObject.SetActive(true);
