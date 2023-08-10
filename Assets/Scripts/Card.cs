@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    // public Animator anim; // ¾Ö´Ï¸ŞÀÌ¼Ç Àû¿ë ½Ã È°¼ºÈ­ÇÒ ÄÚµå
+    // public Animator anim; // ì• ë‹ˆë©”ì´ì…˜ ì ìš© ì‹œ í™œì„±í™”í•  ì½”ë“œ
     public Animator anim;
     public AudioClip flip;
 
@@ -26,7 +26,7 @@ public class Card : MonoBehaviour
 
     public void openCard()
     {
-        // anim.SetBool("isOpen", true);  // ¾Ö´Ï¸ŞÀÌ¼Ç Àû¿ë ½Ã ³Ö¾î¾ßÇÒ ÄÚµå
+        // anim.SetBool("isOpen", true);  // ì• ë‹ˆë©”ì´ì…˜ ì ìš© ì‹œ ë„£ì–´ì•¼í•  ì½”ë“œ
         anim.SetBool("isOpen", true);
         AudioManager.Instance.PlayClip(flip);
 
@@ -61,7 +61,7 @@ public class Card : MonoBehaviour
 
     void closeCardInvoke()
     {
-        // anim.SetBool("isOpen", false); // ¾Ö´Ï¸ŞÀÌ¼Ç Àû¿ë ½Ã È°¼ºÈ­
+        // anim.SetBool("isOpen", false); // ì• ë‹ˆë©”ì´ì…˜ ì ìš© ì‹œ í™œì„±í™”
         anim.SetBool("isOpen", false);
 
         transform.Find("back").gameObject.SetActive(true);
