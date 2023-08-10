@@ -27,13 +27,7 @@ public class LevelData : MonoBehaviour
     private int gameLevel = 1;
     public int GameLevel => gameLevel;
 
-    [SerializeField]
-    private Toggle level1;
-    [SerializeField]
-    private Toggle level2;
-    [SerializeField]
-    private Toggle level3;
-    
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -47,10 +41,8 @@ public class LevelData : MonoBehaviour
         }
     }
 
-    public void SetLevel()
+    public void SetLevel(int i)
     {
-        if(level1.isOn) gameLevel = 1;
-        if(level2.isOn) gameLevel = 2;
-        if(level3.isOn) gameLevel = 3;
+        gameLevel = i;
     }
 }
